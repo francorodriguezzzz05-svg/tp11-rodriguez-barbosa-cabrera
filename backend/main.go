@@ -8,6 +8,8 @@ type Reclamo struct {
 	Tipo   string `json:"tipo"`
 }
 
+var reclamos []Reclamo
+
 func main() {
 	app := fiber.New()
 
@@ -22,7 +24,13 @@ func main() {
 			return c.Status(400).SendString("Error en los datos")
 		}
 
+		reclamos = append(reclamos, reclamo)
+
 		return c.JSON(reclamo)
+	})
+
+	app.Get("/api/v1/reclamos", func(c *fiber.Ctx) error {
+		return c.JSON(reclamos)
 	})
 
 	app.Listen(":3000")
